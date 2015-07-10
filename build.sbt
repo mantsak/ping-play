@@ -76,8 +76,11 @@ lazy val sampleAppJavaSettings = Seq(
   libraryDependencies ++= Seq(
     javaWs,
     "com.typesafe.play" %% "play-java" % play.core.PlayVersion.current,
-    specs2 % Test
+    specs2 % Test,
+    filters,
+    "com.mohiva" %% "play-html-compressor" % "0.4.1-SNAPSHOT"
   ),
+  resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
   // These two settings are to ensure the test servers don't use the same port if they happen to run in parallel
   fork in Test := true,
   javaOptions in Test += "-Dtestserver.port=19222"
