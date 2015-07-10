@@ -1,0 +1,33 @@
+@(bigPipe: BigPipe, profile: Pagelet, graph: Pagelet, feed: Pagelet, inbox: Pagelet, ads: Pagelet, search: Pagelet)
+
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/stylesheets/main.css">
+    <!-- You need to include the BigPipe JavaScript at the top of the page -->
+    <script src="/assets/com/ybrikman/ping/big-pipe.js"></script>
+    <!-- Include mustache.js, a client-side templating library -->
+    <script src="/assets/javascripts/mustache.js"></script>
+    <!-- Include custom code that will allow you to use BigPipe with mustache.js -->
+    <script src="/assets/javascripts/big-pipe-with-mustache.js"></script>
+  </head>
+  <body>
+    <h1>With Big Pipe and Client-Side Templating</h1>
+    @HtmlStream.fromHtml(views.html.helpers.timing())
+
+    @bigPipe.render { pagelets =>
+      <table class="wrapper">
+        <tr>
+          <td>@pagelets(profile.id)</td>
+          <td>@pagelets(ads.id)</td>
+          <td>@pagelets(feed.id)</td>
+        </tr>
+        <tr>
+          <td>@pagelets(search.id)</td>
+          <td>@pagelets(inbox.id)</td>
+          <td>@pagelets(graph.id)</td>
+        </tr>
+      </table>
+    }
+
+  </body>
+</html>
