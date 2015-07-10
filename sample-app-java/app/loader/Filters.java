@@ -7,6 +7,10 @@ import play.http.HttpFilters;
 import play.libs.F;
 import play.libs.ws.WSResponse;
 
+import com.mohiva.play.htmlcompressor.java.HTMLCompressorFilter;
+import com.mohiva.play.xmlcompressor.java.XMLCompressorFilter;
+import play.filters.gzip.GzipFilter;
+
 import javax.inject.Inject;
 
 /**
@@ -20,9 +24,14 @@ public class Filters implements HttpFilters {
   public Filters(DedupingCache<String, F.Promise<WSResponse>> cache) {
     cacheFilter = new CacheFilter<>(cache);
   }
-
+  
+  @Inject
+  GzipFilter gzipFilter;
+  // new GzipFilter(shouldGzip = (request, response) =>
+  // response.headers.get("Content-Type").exists(_.startsWith("text/html")))
+  
   @Override
   public EssentialFilter[] filters() {
-    return new EssentialFilter[]{cacheFilter};
+    return new EssentialFilter[]{gzipFilter, new HTMLCompressorFilter(), new XMLCompressorFilter(), cacheFilter};
   }
 }
